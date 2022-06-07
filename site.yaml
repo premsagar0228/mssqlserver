@@ -1,0 +1,18 @@
+---
+- hosts: mssql
+  become: yes
+  vars_files:
+    - vars.yaml
+
+  roles:
+    - /var/lib/awx/projects/prem_dir/ansible_implementation/mssql2019-roles-RHEL8/roles/pre-reqs
+    - /var/lib/awx/projects/prem_dir/ansible_implementation/mssql2019-roles-RHEL8/roles/ansible-role-mssql
+  tasks:
+    - name: Wait up to 60 seconds for server to become available after creation
+      wait_for:
+        port: 1433
+        timeout: 60
+    - name: Create new db
+      include_role:
+        name: /var/lib/awx/projects/prem_dir/ansible_implementation/mssql2019-roles-RHEL8/roles/ansible-role-mssql
+        tasks_from: new_db

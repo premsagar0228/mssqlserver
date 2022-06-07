@@ -1,0 +1,15 @@
+---
+- hosts: mssql
+  become: true
+  gather_facts: no
+  vars:
+    ansible_python_interpreter: /usr/bin/python3.6
+  tasks:
+  - name: create database
+    mssql_db:
+      name: testdb2
+      state: present
+      login_host: 3.22.155.75
+      login_user: sa
+      login_password: 'P@ssWORD!'
+    delegate_to: 127.0.0.1
